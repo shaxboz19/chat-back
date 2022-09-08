@@ -7,6 +7,8 @@ const io = require("socket.io")(8900, {
   },
 });
 
+console.log('🚀 Server started');
+
 let users = [];
 
 const addUser = (userId, socketId) => {
