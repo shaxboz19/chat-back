@@ -10,11 +10,11 @@ router.post("/", async (req, res) => {
   });
 
   try {
-    const conversation = await Conversation.find({
+    const conversation = await Conversation.findOne({
       members: { $all: [req.body.senderId, req.body.receiverId] },
     });
-    if(conversation.length != 0) {
-      return res.sendStatus(200)
+    if(conversation) {
+      return res.status(200).json(conversation)
       
     }
     const savedConversation = await newConversation.save();
@@ -30,7 +30,7 @@ router.get("/:userId", async (req, res) => {
   try {
     let conversation = await Conversation.find({
       members: { $in: [req.params.userId] },
-    });
+    },null, {sort: '-createdAt'});
    
   
     res.status(200).json(conversation);
